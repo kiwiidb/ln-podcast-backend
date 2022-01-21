@@ -10,7 +10,7 @@ import (
 func HighlightHandler(w http.ResponseWriter, r *http.Request) {
 	payload := []PodcastPayload{
 		{
-			URL: "https://castleisland.libsyn.com/rss",
+			URL: proxyUrl(r, "https://media.rss.com/flitzpodcast/feed.xml"),
 			AddressPayload: AddressPayload{
 				Callback:    "https://api.flitz.be/lnurl-pay-secondary/FLITZgrDBQdSHU0/kwinten",
 				MaxSendable: 400000000,

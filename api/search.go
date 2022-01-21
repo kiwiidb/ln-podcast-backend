@@ -4,6 +4,8 @@ import (
 	"encoding/json"
 	"fmt"
 	"net/http"
+	"net/url"
+	"strings"
 
 	"github.com/flitz-be/ln-podcast-backend/client"
 	"github.com/mcnijman/go-emailaddress"
@@ -19,7 +21,7 @@ func SearchHandler(w http.ResponseWriter, r *http.Request) {
 	payload := []PodcastPayload{}
 	for _, f := range feeds.Feeds {
 		payload = append(payload, PodcastPayload{
-			URL:            f.URL,
+			URL:            proxyUrl(r, f.URL),
 			AddressPayload: parseForLNAddress(f.Description),
 		})
 	}
@@ -31,6 +33,9 @@ func SearchHandler(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
+func proxyUrl(r *http.Request, in string) (out string) {
+	return fmt.Sprintf("https://%s/%s?url=%s", r.Host, strings.Replace(r.URL.Path, "search", "proxy", 1), url.QueryEscape(in))
+}
 func parseForLNAddress(input string) (result AddressPayload) {
 	emails := emailaddress.Find([]byte(input), false)
 
