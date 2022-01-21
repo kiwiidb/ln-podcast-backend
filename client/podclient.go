@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"net/http"
 	"net/url"
+	"os"
 	"strconv"
 	"time"
 )
@@ -47,6 +48,18 @@ type PodcastPayloadExternal struct {
 		MaxSendable int    `json:"maxSendable"`
 		MinSendable int    `json:"minSendable"`
 	} `json:"addressPayload"`
+}
+
+func NewPodClient() *PodCastIndexClient {
+	apiKey := os.Getenv("PI_API_KEY")
+	apiSecret := os.Getenv("PI_API_SECRET")
+
+	return &PodCastIndexClient{
+		ApiKey:    apiKey,
+		UserAgent: "test",
+		ApiSecret: apiSecret,
+		Host:      "https://api.podcastindex.org/",
+	}
 }
 
 func (p *PodCastIndexClient) Search(query string) (result *PodcastIndexResponse, err error) {
