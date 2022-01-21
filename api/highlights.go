@@ -23,3 +23,14 @@ func HighlightHandler(w http.ResponseWriter, r *http.Request) {
 		logrus.WithError(err).Error("error encoding payload")
 	}
 }
+
+type PodcastPayload struct {
+	URL            string         `json:"url"`
+	AddressPayload AddressPayload `json:"addressPayload"`
+}
+
+type AddressPayload struct {
+	Callback    string `json:"callback"`
+	MaxSendable int    `json:"maxSendable"`
+	MinSendable int    `json:"minSendable"`
+}
