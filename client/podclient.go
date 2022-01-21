@@ -56,9 +56,9 @@ func NewPodClient() *PodCastIndexClient {
 
 	return &PodCastIndexClient{
 		ApiKey:    apiKey,
-		UserAgent: "test",
+		UserAgent: "LNAddressPodcastClient",
 		ApiSecret: apiSecret,
-		Host:      "https://api.podcastindex.org/",
+		Host:      "https://api.podcastindex.org",
 	}
 }
 
