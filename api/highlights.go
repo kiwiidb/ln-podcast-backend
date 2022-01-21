@@ -18,6 +18,8 @@ func HighlightHandler(w http.ResponseWriter, r *http.Request) {
 			},
 		},
 	}
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(http.StatusOK)
 	err := json.NewEncoder(w).Encode(&payload)
 	if err != nil {
 		logrus.WithError(err).Error("error encoding payload")
