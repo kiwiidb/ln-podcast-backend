@@ -1,7 +1,7 @@
 package handler
 
 import (
-	"fmt"
+	"io/ioutil"
 	"net/http"
 
 	"github.com/sirupsen/logrus"
@@ -13,7 +13,12 @@ func ProxyHandler(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		logrus.Error(err)
 	}
+
+	bodyBytes, err := ioutil.ReadAll(resp.Body)
+	if err != nil {
+		logrus.Error(err)
+	}
 	w.Header().Set("Content-Type", "application/xml")
 	w.WriteHeader(http.StatusOK)
-	fmt.Fprint(w, resp.Body)
+	w.Write(bodyBytes)
 }
