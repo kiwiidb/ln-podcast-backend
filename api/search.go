@@ -21,7 +21,7 @@ func SearchHandler(w http.ResponseWriter, r *http.Request) {
 	payload := []PodcastPayload{}
 	for _, f := range feeds.Feeds {
 		payload = append(payload, PodcastPayload{
-			URL:            proxyUrl(r, f.URL),
+			URL:            proxyUrl(r, "search", f.URL),
 			AddressPayload: parseForLNAddress(f.Description),
 		})
 	}
@@ -33,8 +33,8 @@ func SearchHandler(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-func proxyUrl(r *http.Request, in string) (out string) {
-	return fmt.Sprintf("https://%s/%s?url=%s", r.Host, strings.Replace(r.URL.Path, "search", "proxy", 1), url.QueryEscape(in))
+func proxyUrl(r *http.Request, toReplace, in string) (out string) {
+	return fmt.Sprintf("https://%s%s?url=%s", r.Host, strings.Replace(r.URL.Path, toReplace, "proxy", 1), url.QueryEscape(in))
 }
 func parseForLNAddress(input string) (result AddressPayload) {
 	emails := emailaddress.Find([]byte(input), false)
